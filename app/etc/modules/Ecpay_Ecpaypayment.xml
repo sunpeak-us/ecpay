@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Ecpay_Ecpaypayment>
+			<active>true</active>
+			<codePool>local</codePool>
+			<depends>
+				<Mage_Payment />
+			</depends>
+		</Ecpay_Ecpaypayment>
+	</modules>
+</config>
+
+

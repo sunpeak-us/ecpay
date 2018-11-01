@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<config>
+	<sections>
+		<payment>
+			<groups>
+				<ecpaypayment translate="label" module="ecpaypayment">
+					<label>ECPay 整合金流</label>
+					<sort_order>1000</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<active translate="label">
+							<label>啟用</label>
+							<sort_order>1</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</active>
+	
+						<ecpay_merchant_id translate="label">
+							<label>商店代號</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>MerchantID</comment>
+                            <can_be_empty>1</can_be_empty>
+						</ecpay_merchant_id>
+	
+						<ecpay_hash_key translate="label">
+							<label>金鑰</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>3</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>HashKey</comment>
+                            <can_be_empty>1</can_be_empty>
+						</ecpay_hash_key>
+	
+						<ecpay_hash_iv translate="label">
+							<label>向量</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>4</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>HashIV</comment>
+                            <can_be_empty>1</can_be_empty>
+						</ecpay_hash_iv>
+	
+						<ecpay_payment_methods translate="label">
+                            <label>付款方式</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>5</sort_order>
+                            <source_model>ecpaypayment/system_config_source_paymentmethods</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>多選: Ctrl + 選取</comment>
+                        </ecpay_payment_methods>
+						
+						<ecpay_create_status translate="label">
+							<label>訂單建立狀態</label>
+							<frontend_type>select</frontend_type>
+							<sort_order>6</sort_order>
+							<source_model>ecpaypayment/system_config_source_orderstatuses</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</ecpay_create_status>
+						
+						<ecpay_success_status translate="label">
+							<label>付款完成狀態</label>
+							<frontend_type>select</frontend_type>
+							<sort_order>7</sort_order>
+							<source_model>ecpaypayment/system_config_source_orderstatuses</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</ecpay_success_status>
+						
+						<ecpay_failed_status translate="label">
+							<label>付款失敗狀態</label>
+							<frontend_type>select</frontend_type>
+							<sort_order>8</sort_order>
+							<source_model>ecpaypayment/system_config_source_orderstatuses</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</ecpay_failed_status>
+
+						<allowspecific translate="label">
+							<label>適用國家</label>
+							<frontend_type>allowspecific</frontend_type>
+							<sort_order>9</sort_order>
+							<source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</allowspecific>
+
+						<specificcountry translate="label">
+							<label>指定國家</label>
+							<frontend_type>multiselect</frontend_type>
+							<sort_order>10</sort_order>
+							<source_model>adminhtml/system_config_source_country</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</specificcountry>
+					</fields>
+				</ecpaypayment>
+			</groups>
+		</payment>
+	</sections>
+</config>
