@@ -47,7 +47,10 @@ class EcpayCartLibrary
      */
     public function loadSdk()
     {
-        if (!class_exists('ECPay_AllInOne', false)) {
+		// 2018-11-01 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		// «Warning: include(ECPay\AllInOne.php): failed to open stream: No such file or directory».
+		// https://github.com/sunpeak-us/ecpay/issues/1
+        if (!@class_exists('ECPay_AllInOne', false)) {
             include('ECPay.Payment.Integration.php');
         }
     }
