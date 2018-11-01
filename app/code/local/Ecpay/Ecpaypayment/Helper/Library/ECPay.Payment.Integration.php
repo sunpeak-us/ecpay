@@ -1502,7 +1502,10 @@ class ECPay_AndroidPay extends ECPay_Verification
 /**
 *  檢查碼
 */
-if(!class_exists('ECPay_CheckMacValue'))
+// 2018-11-01 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+// «Warning: include(ECPay\CheckMacValue.php): failed to open stream: No such file or directory»:
+// https://github.com/sunpeak-us/ecpay/issues/3
+if(!@class_exists('ECPay_CheckMacValue'))
 {
 
     class ECPay_CheckMacValue{
