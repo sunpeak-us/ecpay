@@ -391,8 +391,10 @@ abstract class ECPay_InvType {
   // 特種稅額
   const Special = '08';
 }
-
-if(!class_exists('ECPay_EncryptType'))
+// 2018-11-01 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+// «Warning: include(ECPay\EncryptType.php): failed to open stream: No such file or directory»:
+// https://github.com/sunpeak-us/ecpay/issues/2
+if(!@class_exists('ECPay_EncryptType'))
 {
     abstract class ECPay_EncryptType {
         // MD5(預設)
