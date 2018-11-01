@@ -4,7 +4,9 @@
 *
 !*/
 !.gitignore
+!README.md
 js
+lib
 !app/code/local/Ecpay/**/*
 !app/design/frontend/base/default/template/ecpaypayment/**/*
 !app/etc/modules/Ecpay_Ecpaypayment.xml
