@@ -94,7 +94,18 @@ class EcpayCartLibrary
         $aio->Send['Items'][] = [
             'Name' => $data['itemName'],
             'Price' => $aio->Send['TotalAmount'],
-            'Currency'  => $data['currency'],
+			/**
+			 * 2018-06-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * The previous (incorrect) code:
+			 * 		'Currency'  => $data['currency'],
+			 * It led to the error:
+			 * «Notice: Undefined index: currency
+			 * in app/code/local/Ecpay/Ecpaypayment/Helper/Library/EcpayCartLibrary.php on line 87»:
+			 * https://github.com/sunpeak-us/ecpay/issues/6
+			 * The `Currency` parameter is not set anywhere, is not used anywhere,
+			 * and does not have any sense because ECPay supports only a single currency: NTD.
+			 * https://github.com/sunpeak-us/ecpay/issues/7
+			 */
             'Quantity' => 1,
             'URL' => '',
         ];
