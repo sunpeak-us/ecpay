@@ -76,11 +76,11 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 	 * https://github.com/sunpeak-us/ecpay/issues/4
 	 * @throws Mage_Core_Exception
 	 */
-    public function getRedirectHtml()
+    function getRedirectHtml()
     {
         try {
             $this->paymentModel->loadLibrary();
-            $sdkHelper = $this->paymentModel->getHelper();
+            $sdkHelper = $this->paymentModel->getHelper();  /** @var \EcpayCartLibrary $sdkHelper */
             // Validate choose payment
             $choosenPayment = $this->getChoosenPayment();
             if ($this->isValidPayment($choosenPayment) === false) {
