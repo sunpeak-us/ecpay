@@ -118,10 +118,12 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 				 * The previous code was:
 				 * 		'clientBackUrl' =>
 				 * 			$this->paymentModel->getMagentoUrl('sales/order/view/order_id/' . $this->getOrderId()),
-				 * "The module should redirect successful customers to the «checkout success» page":
+				 * 1) "The module should redirect successful customers to the «checkout success» page":
 				 * https://github.com/sunpeak-us/ecpay/issues/10
+				 * 2) "The module should unsuccessful customers to the cart page and restore their carts":
+				 * https://github.com/sunpeak-us/ecpay/issues/11
 				 */
-                'clientBackUrl' => Mage::getUrl('checkout/onepage/success'),
+                'clientBackUrl' => $this->paymentModel->getModuleUrl('customerReturn'),
                 'orderId' => $orderId,
 				// 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 				// "The module should pass payment amounts to the ECPay's API in NTD":
@@ -155,7 +157,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             unset($helperData);
 
             $orderId = $sdkHelper->getOrderId($feedback['MerchantTradeNo']);
-            $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+            $order = Mage::getModel('sales/order')->loadByIncrementId($orderId); /** @var O $order */
 			/**
 			 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 			 * 1) "The `$this->paymentModel->getMagentoConfig('use_store_currency')` code
@@ -218,7 +220,16 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 $status = $this->paymentModel->getEcpayConfig('failed_status');
                 $pattern = $this->__('ecpay_payment_order_comment_payment_failure');
                 $comment = $sdkHelper->getFailedComment($pattern, $error);
-                $order->setState($status, $status, $comment, $this->resultNotify)->save();
+                $order->setState($status, $status, $comment, $this->resultNotify);
+				/**
+				 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				 * "The module should unsuccessful customers to the cart page and restore their carts":
+				 * https://github.com/sunpeak-us/ecpay/issues/11
+				 * The cancellation state is
+				 * @used-by \Ecpay_Ecpaypayment_PaymentController::customerReturnAction()
+				 */
+                $order->cancel();
+                $order->save;
                 unset($status, $pattern, $comment);
             }
             
