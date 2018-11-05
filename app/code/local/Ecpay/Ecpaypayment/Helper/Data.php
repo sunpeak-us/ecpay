@@ -113,9 +113,15 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 'hashKey' => $this->paymentModel->getEcpayConfig('hash_key'),
                 'hashIv' => $this->paymentModel->getEcpayConfig('hash_iv'),
                 'returnUrl' => $this->paymentModel->getModuleUrl('response'),
-//                'clientBackUrl' =>$this->paymentModel->getMagentoUrl('sales/order/view/order_id/' . $orderId),
-                'clientBackUrl' =>$this->paymentModel->getMagentoUrl('sales/order/view/order_id/' . $this->getOrderId()),
-//                'clientBackUrl' =>$this->paymentModel->getMagentoUrl('checkout/onepage/success'),
+				/**
+				 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				 * The previous code was:
+				 * 		'clientBackUrl' =>
+				 * 			$this->paymentModel->getMagentoUrl('sales/order/view/order_id/' . $this->getOrderId()),
+				 * "The module should redirect successful customers to the «checkout success» page":
+				 * https://github.com/sunpeak-us/ecpay/issues/10
+				 */
+                'clientBackUrl' => Mage::getUrl('checkout/onepage/success'),
                 'orderId' => $orderId,
 				// 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 				// "The module should pass payment amounts to the ECPay's API in NTD":
