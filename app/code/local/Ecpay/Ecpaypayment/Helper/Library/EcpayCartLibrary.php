@@ -56,11 +56,12 @@ class EcpayCartLibrary
     }
 
     /**
-     * Checkout
-     * @param  array $data The data for checkout
+	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+     * @used-by \Ecpay_Ecpaypayment_Helper_Data::getRedirectHtml()
+     * @param array $data The data for checkout
      * @return void
      */
-    public function checkout($data)
+    function checkout($data)
     {
         $paymentType = $data['choosePayment'];
 
@@ -76,8 +77,17 @@ class EcpayCartLibrary
         $aio->Send['MerchantTradeNo'] = $this->getMerchantTradeNo($data['orderId']);
         $aio->Send['MerchantTradeDate'] = $this->tradeTime;
         $aio->Send['TradeDesc'] = $data['version'];
-   //   $aio->Send['TotalAmount'] = $this->getAmount($data['total']);
-        $aio->Send['TotalAmount'] = $this->_convertAmounttoUSD($this->getAmount($data['total']));
+		/**
+		 * 2018-06-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * The previous (incorrect) code:
+		 * 		$aio->Send['TotalAmount'] = $this->_convertAmounttoUSD($this->getAmount($data['total']));
+		 * "The sunpeak.us modification of the official ECPay module
+		 * incorrectly sends payment amounts in USD to the ECPay's API.
+		 * It is forbidden because the ECPay's API accepts only TWD
+		 * which is exactly stated in the API's specification.":
+		 * https://github.com/sunpeak-us/ecpay/issues/7
+		 */
+        $aio->Send['TotalAmount'] = $this->getAmount($data['total']);
         $aio->Send['ChoosePayment'] = $this->getPaymentMethod($paymentType);
 
         // Set the product info
@@ -564,19 +574,5 @@ class EcpayCartLibrary
      */
     public function getUnixTime($dateString) {
         return strtotime($dateString);
-    }
-
-public function _convertAmounttoUSD($value)
-    {
-        $baseCode = Mage::app()->getBaseCurrencyCode();
-        $fromCur = Mage::app()->getStore()->getCurrentCurrencyCode();
-        $toCur = 'TWD';
-        $allowedCurrencies = Mage::getModel('directory/currency')->getConfigAllowCurrencies();
-        $rates = Mage::getModel('directory/currency')->getCurrencyRates($baseCode, array_values($allowedCurrencies));
-
-        $output = ( $value * $rates[$toCur] ) / $rates[$fromCur];
-
-//        return sprintf('%.2F', $output);
-	return intval($output);
     }
 }
