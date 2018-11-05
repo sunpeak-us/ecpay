@@ -24,7 +24,6 @@ class ECPay_Ecpaypayment_Model_Payment extends Mage_Payment_Model_Method_Abstrac
     protected $_canManageRecurringProfiles  = true;
 
     private $prefix = 'ecpay_';
-    private $libraryList = array('EcpayCartLibrary.php');
 
     public function getOrderPlaceRedirectUrl()
     {
@@ -63,10 +62,19 @@ class ECPay_Ecpaypayment_Model_Payment extends Mage_Payment_Model_Method_Abstrac
         return $this->getConfigData($name);
     }
 
-    public function loadLibrary() {
-        foreach ($this->libraryList as $path) {
-            include_once($path);
-        }
+	/**
+	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * @used-by \Ecpay_Ecpaypayment_Helper_Data::getPaymentResult()
+	 * @used-by \Ecpay_Ecpaypayment_Helper_Data::getRedirectHtml()
+	 */
+    function loadLibrary() {
+		/**
+		 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * «Warning: include_once(EcpayCartLibrary.php): failed to open stream:
+		 * No such file or directory in app/code/local/Ecpay/Ecpaypayment/Model/Payment.php on line 68»:
+		 * https://github.com/sunpeak-us/ecpay/issues/5
+		 */
+    	Mage::helper('ecpaypayment');
     }
 
     public function getHelper() {
