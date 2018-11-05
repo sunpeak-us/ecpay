@@ -147,18 +147,14 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
             $orderId = $sdkHelper->getOrderId($feedback['MerchantTradeNo']);
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
-
-            // Check transaction amount and currency
-            if ($this->paymentModel->getMagentoConfig('use_store_currency')) {
-                $orderTotal = $order->getGrandTotal();
-                $currency = $order->getOrderCurrencyCode();
-            } else {
-                $orderTotal = $order->getBaseGrandTotal();
-                $currency = $order->getBaseCurrencyCode();
-            }
-
+			/**
+			 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * "The `$this->paymentModel->getMagentoConfig('use_store_currency')` code
+			 * does not have a sense because the `use_store_currency` configuration option is absent":
+			 * https://github.com/sunpeak-us/ecpay/issues/8
+			 */
             // Check the amounts
-            if ($sdkHelper->validAmount($feedback['TradeAmt'], $orderTotal) === false) {
+            if ($sdkHelper->validAmount($feedback['TradeAmt'], $order->getBaseGrandTotal()) === false) {
                 // throw new Exception($sdkHelper->getAmountError($orderId));
             }
 
