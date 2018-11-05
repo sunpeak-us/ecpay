@@ -1,8 +1,8 @@
 <?php
-
+use \Mage_Directory_Model_Currency as C;
+use \Mage_Sales_Model_Order as O;
 include_once('Library/ECPay.Payment.Integration.php');
 include_once('Library/EcpayCartLibrary.php');
-
 class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
     private $paymentModel = null;
@@ -117,7 +117,10 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 'clientBackUrl' =>$this->paymentModel->getMagentoUrl('sales/order/view/order_id/' . $this->getOrderId()),
 //                'clientBackUrl' =>$this->paymentModel->getMagentoUrl('checkout/onepage/success'),
                 'orderId' => $orderId,
-                'total' => $order->getGrandTotal(),
+				// 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				// "The module should pass payment amounts to the ECPay's API in NTD":
+				// https://github.com/sunpeak-us/ecpay/issues/9
+                'total' => $this->toNTD($order),
                 'itemName' => $this->__('ecpay_payment_redirect_text_item_name'),
                 'version' => $this->prefix . 'module_magento_2.1.0206',
             );
@@ -149,12 +152,14 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
 			/**
 			 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-			 * "The `$this->paymentModel->getMagentoConfig('use_store_currency')` code
+			 * 1) "The `$this->paymentModel->getMagentoConfig('use_store_currency')` code
 			 * does not have a sense because the `use_store_currency` configuration option is absent":
 			 * https://github.com/sunpeak-us/ecpay/issues/8
+			 * 2) "The module should pass payment amounts to the ECPay's API in NTD":
+			 * https://github.com/sunpeak-us/ecpay/issues/9
 			 */
             // Check the amounts
-            if ($sdkHelper->validAmount($feedback['TradeAmt'], $order->getBaseGrandTotal()) === false) {
+            if ($sdkHelper->validAmount($feedback['TradeAmt'], $this->toNTD($order)) === false) {
                 // throw new Exception($sdkHelper->getAmountError($orderId));
             }
 
@@ -238,4 +243,18 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getModel('sales/order')->loadByIncrementId($orderId);
     }
+
+	/**
+	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * The method returns the order's total in NTD.
+	 * "The module should pass payment amounts to the ECPay's API in NTD":
+	 * https://github.com/sunpeak-us/ecpay/issues/9
+	 * @used-by getRedirectHtml()
+	 * @param \Mage_Sales_Model_Order $o
+	 * @return int
+	 */
+    private function toNTD(O $o) {
+    	$cBase = Mage::getModel('directory/currency')->load($o->getBaseCurrencyCode()); /** @var C $cBase */
+		return intval($o->getBaseGrandTotal() * $cBase->getRate('TWD'));
+	}
 }
