@@ -68,7 +68,15 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
 
-    public function getRedirectHtml($posts)
+	/**
+	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * «Warning: Missing argument 1 for Ecpay_Ecpaypayment_Helper_Data::getRedirectHtml(),
+	 * called in app/design/frontend/base/default/template/ecpaypayment/redirect.phtml on line 2
+	 * and defined in app/code/local/Ecpay/Ecpaypayment/Helper\Data.php on line 71»:
+	 * https://github.com/sunpeak-us/ecpay/issues/4
+	 * @throws Mage_Core_Exception
+	 */
+    public function getRedirectHtml()
     {
         try {
             $this->paymentModel->loadLibrary();
