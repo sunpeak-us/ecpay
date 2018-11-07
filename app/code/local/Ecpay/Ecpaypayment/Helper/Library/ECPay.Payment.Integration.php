@@ -1595,5 +1595,3 @@ if(!@class_exists('ECPay_CheckMacValue'))
     }
 }
 
-
-?>
