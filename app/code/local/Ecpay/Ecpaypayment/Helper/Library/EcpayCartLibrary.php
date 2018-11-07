@@ -254,12 +254,12 @@ class EcpayCartLibrary
      */
     public function getFeedback($data)
     {
-        $aio = $this->getAio();
+        $aio = $this->getAio();  /** @var \ECPay_AllInOne $aio */
         $aio->MerchantID = $this->merchantId;
         $aio->HashKey = $data['hashKey'];
         $aio->HashIV = $data['hashIv'];
         $aio->EncryptType = $this->encryptType;
-        $feedback = $aio->CheckOutFeedback();
+        $feedback = $aio->CheckOutFeedback(); /** @var array(string => mixed) */
         if (count($feedback) < 1) {
             throw new Exception($this->provider . ' feedback is empty.');
         }
@@ -290,6 +290,7 @@ class EcpayCartLibrary
 
     /**
      * Get AIO feedback and validate
+	 * @used-by \Ecpay_Ecpaypayment_Helper_Data::getPaymentResult()
      * @param  array $data The data for getting AIO feedback
      * @return array
      */
