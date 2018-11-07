@@ -146,7 +146,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         $error = '';
         try {
             $this->paymentModel->loadLibrary();
-            $sdkHelper = $this->paymentModel->getHelper();
+            $sdkHelper = $this->paymentModel->getHelper(); /** @var \EcpayCartLibrary $sdkHelper */
 
             // Get valid feedback
             $helperData = array(
@@ -221,15 +221,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 $pattern = $this->__('ecpay_payment_order_comment_payment_failure');
                 $comment = $sdkHelper->getFailedComment($pattern, $error);
                 $order->setState($status, $status, $comment, $this->resultNotify);
-				/**
-				 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-				 * "The module should unsuccessful customers to the cart page and restore their carts":
-				 * https://github.com/sunpeak-us/ecpay/issues/11
-				 * The cancellation state is
-				 * @used-by \Ecpay_Ecpaypayment_PaymentController::customerReturnAction()
-				 */
-                $order->cancel();
-                $order->save;
+                $order->save();
                 unset($status, $pattern, $comment);
             }
             
