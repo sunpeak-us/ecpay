@@ -78,7 +78,7 @@ class EcpayCartLibrary
         $aio->Send['MerchantTradeDate'] = $this->tradeTime;
         $aio->Send['TradeDesc'] = $data['version'];
 		/**
-		 * 2018-06-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 		 * The previous (incorrect) code:
 		 * 		$aio->Send['TotalAmount'] = $this->_convertAmounttoUSD($this->getAmount($data['total']));
 		 * "The sunpeak.us modification of the official ECPay module
@@ -95,7 +95,7 @@ class EcpayCartLibrary
             'Name' => $data['itemName'],
             'Price' => $aio->Send['TotalAmount'],
 			/**
-			 * 2018-06-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 			 * The previous (incorrect) code:
 			 * 		'Currency'  => $data['currency'],
 			 * It led to the error:
