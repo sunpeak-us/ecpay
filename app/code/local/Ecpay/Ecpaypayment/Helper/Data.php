@@ -128,7 +128,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 				// 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 				// "The module should pass payment amounts to the ECPay's API in NTD":
 				// https://github.com/sunpeak-us/ecpay/issues/9
-                'total' => $this->toNTD($order),
+                'total' => $this->toTWD($order),
                 'itemName' => $this->__('ecpay_payment_redirect_text_item_name'),
                 'version' => $this->prefix . 'module_magento_2.1.0206',
             );
@@ -167,7 +167,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 			 * https://github.com/sunpeak-us/ecpay/issues/9
 			 */
             // Check the amounts
-            if ($sdkHelper->validAmount($feedback['TradeAmt'], $this->toNTD($order)) === false) {
+            if ($sdkHelper->validAmount($feedback['TradeAmt'], $this->toTWD($order)) === false) {
                 // throw new Exception($sdkHelper->getAmountError($orderId));
             }
 
@@ -262,7 +262,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 	 * @param \Mage_Sales_Model_Order $o
 	 * @return int
 	 */
-    private function toNTD(O $o) {
+    private function toTWD(O $o) {
     	$cBase = Mage::getModel('directory/currency')->load($o->getBaseCurrencyCode()); /** @var C $cBase */
 		return intval($o->getBaseGrandTotal() * $cBase->getRate('TWD'));
 	}
