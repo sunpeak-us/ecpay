@@ -89,7 +89,45 @@ class EcpayCartLibrary
 		 */
         $aio->Send['TotalAmount'] = $this->getAmount($data['total']);
         $aio->Send['ChoosePayment'] = $this->getPaymentMethod($paymentType);
-
+		// 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		// «Bind bank cards to the customers»: https://github.com/sunpeak-us/ecpay/issues/12
+		$cs = Mage::getSingleton('customer/session'); /** @var \Mage_Customer_Model_Session $cs */
+		if ($cs->isLoggedIn()) {
+			/**
+			 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * «The function of this parameter is used to save a credit card number.
+			 * If merchants need to bind the card: please set 1 as the value of this parameter.
+			 * If merchants do not need to bind the card: please set 0 as the value of this parameter.»
+			 * https://mage2.pro/t/5728
+			 */
+			$aio->Send['BindingCard'] = 1;
+			/**
+			 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * «Merchant 1. [Saved credit card number on platform PlatformID]
+			 * 1.1) The naming rules are set by the platform provider
+			 * (applicable to platform providers with membership systems):
+			 * when transmitting parameter MerchantMemberID,
+			 * the first 7 digits must be the PlatformID
+			 * (PlatformID+ member ID. The length must not exceed 30 characters)
+			 * Ex: 3002599Test1234
+			 *
+			 * 1.2) The naming rules are set by the merchants under the platform
+			 * (applicable to merchants with membership systems):
+			 * when transmitting parameter MerchantMemberID,
+			 * the first 7 digits must be the MerchantID (MerchantID + member ID.
+			 * The length must not exceed 30 characters)
+			 * Ex: 2000132Test1234
+			 *
+			 * 2) [Saved credit card number is by merchant MerchantID:
+			 * The naming rules are set by the merchant (applicable to merchants with membership systems):
+			 * when transmitting parameter MerchantMemberID, the first 7 digits must be the MerchantID
+			 * (MerchantID + member ID. The length must not exceed 30 characters)
+			 * Ex: 2000132Test1234»
+			 * 
+			 * https://mage2.pro/t/5728
+			 */
+			$aio->Send['MerchantMemberID'] = "{$this->merchantId}_{$cs->getId()}";
+		}
         // Set the product info
         $aio->Send['Items'][] = [
             'Name' => $data['itemName'],
