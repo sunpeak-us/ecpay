@@ -1458,7 +1458,7 @@ class ECPay_Credit extends ECPay_Verification
                                     "Redeem"            => FALSE,
                                     "UnionPay"          => FALSE,
                                     "Language"          => '',
-                                    "BidingCard"        => '',
+                                    "BindingCard"        => '',
                                     "MerchantMemberID"  => '',
                                     "PeriodAmount"      => '',
                                     "PeriodType"        => '',
