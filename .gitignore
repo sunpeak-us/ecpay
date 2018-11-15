@@ -3,11 +3,8 @@
 # http://stackoverflow.com/questions/8024924#comment15884195_8025106
 *
 !*/
-!.gitignore
-!README.md
-app
-js
-lib
+!/.gitignore
+!/README.md
 !app/code/local/Ecpay/**/*
 !app/design/frontend/base/default/template/ecpaypayment/**/*
 !app/etc/modules/Ecpay_Ecpaypayment.xml
