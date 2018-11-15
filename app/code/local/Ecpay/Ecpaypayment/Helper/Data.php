@@ -1,18 +1,12 @@
 <?php
-use \Mage_Directory_Model_Currency as C;
-use \Mage_Sales_Model_Order as O;
+use Ecpay_Ecpaypayment_Block_Info as BI;
+use Mage_Directory_Model_Currency as C;
+use Mage_Sales_Model_Order as O;
+use Mage_Sales_Model_Order_Payment as OP;
 include_once('Library/ECPay.Payment.Integration.php');
 include_once('Library/EcpayCartLibrary.php');
 class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    private $paymentModel = null;
-    private $prefix = 'ecpay_';
-    private $updateNotify = false;
-    private $resultNotify = true;
-    private $obtainCodeNotify = true;
-
-    private $errorMessages = array();
-
     public function __construct()
     {
         $this->paymentModel = Mage::getModel('ecpaypayment/payment');
@@ -94,7 +88,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             }
 
             // Update order status and comments
-            $order = $this->getOrder($orderId);
+            $order = $this->getOrder($orderId); /** @var O $order */
             $createStatus = $this->paymentModel->getEcpayConfig('create_status');
             $pattern = $this->__('ecpay_payment_order_comment_payment_method');
             $paymentName = $this->getPaymentTranslation($choosenPayment);
@@ -128,10 +122,22 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 				// 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 				// "The module should pass payment amounts to the ECPay's API in NTD":
 				// https://github.com/sunpeak-us/ecpay/issues/9
-                'total' => $this->toTWD($order),
+                'total' => ($totalInTWD = $this->toTWD($order)),  /** @var int $totalInTWD */
                 'itemName' => $this->__('ecpay_payment_redirect_text_item_name'),
                 'version' => $this->prefix . 'module_magento_2.1.0206',
             );
+			/**
+			 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * «Backend needs to note:
+			 * 1) the currency rate used,
+			 * 2) the actual amount charged to the customer (in TWD)
+			 * 3) the base currency amount (USD)»
+			 * https://github.com/sunpeak-us/ecpay/issues/14
+			 */
+            $op = $order->getPayment(); /** @var OP $op */
+			$op->setAdditionalInformation([
+				BI::RATE => $this->rateFromBaseToTWD($order), BI::TOTAL_TWD => $totalInTWD
+			] + $op->getAdditionalInformation())->save();
             $sdkHelper->checkout($helperData);
             $checkoutSession->clear();
         } catch (Exception $e) {
@@ -254,16 +260,43 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
 	/**
+	 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * @used-by rateFromBaseToTWD()
+	 * @param O $o
+	 * @return C
+	 */
+	private function cBase(O $o) {return Mage::getModel('directory/currency')->load($o->getBaseCurrencyCode());}
+
+	/**
+	 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * @used-by getRedirectHtml()
+	 * @used-by toTWD()
+	 * @param O $o
+	 * @return float
+	 */
+	private function rateFromBaseToTWD(O $o) {return $this->cBase($o)->getRate('TWD');}
+
+	/**
 	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 	 * The method returns the order's total in NTD.
 	 * "The module should pass payment amounts to the ECPay's API in NTD":
 	 * https://github.com/sunpeak-us/ecpay/issues/9
+	 * @used-by getPaymentResult()
 	 * @used-by getRedirectHtml()
-	 * @param \Mage_Sales_Model_Order $o
+	 * @param O $o
 	 * @return int
 	 */
-    private function toTWD(O $o) {
-    	$cBase = Mage::getModel('directory/currency')->load($o->getBaseCurrencyCode()); /** @var C $cBase */
-		return intval($o->getBaseGrandTotal() * $cBase->getRate('TWD'));
-	}
+    private function toTWD(O $o) {return intval($o->getBaseGrandTotal() * $this->rateFromBaseToTWD($o));}
+
+	/**
+	 * 2018-11-15
+	 * @var ECPay_Ecpaypayment_Model_Payment
+	 */
+    private $paymentModel = null;
+    private $prefix = 'ecpay_';
+    private $updateNotify = false;
+    private $resultNotify = true;
+    private $obtainCodeNotify = true;
+
+    private $errorMessages = array();
 }

@@ -3,7 +3,15 @@ class ECPay_Ecpaypayment_Model_Payment extends Mage_Payment_Model_Method_Abstrac
 {
     protected $_code  = 'ecpaypayment';
     protected $_formBlockType = 'ecpaypayment/form_ecpaypayment';
-    protected $_infoBlockType = 'payment/info';
+	/**
+	 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * «Backend needs to note:
+	 * 1) the currency rate used,
+	 * 2) the actual amount charged to the customer (in TWD)
+	 * 3) the base currency amount (USD)»
+	 * https://github.com/sunpeak-us/ecpay/issues/14
+	 */    
+    protected $_infoBlockType = 'ecpaypayment/info';
 
     protected $_isGateway                   = true;
     protected $_canOrder                    = true;
