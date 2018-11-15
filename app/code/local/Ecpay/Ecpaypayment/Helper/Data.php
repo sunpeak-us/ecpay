@@ -3,6 +3,7 @@ use Ecpay_Ecpaypayment_Block_Info as BI;
 use Mage_Directory_Model_Currency as C;
 use Mage_Sales_Model_Order as O;
 use Mage_Sales_Model_Order_Payment as OP;
+use Mage_Sales_Model_Order_Payment_Transaction as T;
 include_once('Library/ECPay.Payment.Integration.php');
 include_once('Library/EcpayCartLibrary.php');
 class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
@@ -164,6 +165,19 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
             $orderId = $sdkHelper->getOrderId($feedback['MerchantTradeNo']);
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderId); /** @var O $order */
+			/**
+			 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * «Store auth data from processor in order notes»:
+			 * https://github.com/sunpeak-us/ecpay/issues/15
+			 */
+			$op = $order->getPayment(); /** @var OP $op */
+			$op->addData([
+				'transaction_id' =>
+					implode('-', [$order->getIncrementId(), Zend_Date::now()->toString('HH:mm:ss')])
+				,'is_transaction_closed' => false
+			]);
+			$op->setTransactionAdditionalInfo(T::RAW_DETAILS, $_REQUEST);
+			$op->addTransaction(T::TYPE_PAYMENT, $order)->save();
 			/**
 			 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 			 * 1) "The `$this->paymentModel->getMagentoConfig('use_store_currency')` code
