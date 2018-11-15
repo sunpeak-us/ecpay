@@ -52,11 +52,24 @@
 							<comment>HashIV</comment>
                             <can_be_empty>1</can_be_empty>
 						</ecpay_hash_iv>
+
+<!-- 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+«Choose a language of the checkout interface per a store»:
+https://github.com/sunpeak-us/ecpay/issues/13 -->
+						<language translate='label'>
+							<frontend_type>select</frontend_type>
+							<label>Payment Form Language</label>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+							<show_in_website>1</show_in_website>
+							<sort_order>5</sort_order>
+							<source_model>ecpaypayment/system_config_source_language</source_model>
+						</language>
 	
 						<ecpay_payment_methods translate="label">
                             <label>付款方式</label>
                             <frontend_type>multiselect</frontend_type>
-                            <sort_order>5</sort_order>
+                            <sort_order>6</sort_order>
                             <source_model>ecpaypayment/system_config_source_paymentmethods</source_model>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
@@ -67,7 +80,7 @@
 						<ecpay_create_status translate="label">
 							<label>訂單建立狀態</label>
 							<frontend_type>select</frontend_type>
-							<sort_order>6</sort_order>
+							<sort_order>7</sort_order>
 							<source_model>ecpaypayment/system_config_source_orderstatuses</source_model>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
@@ -77,7 +90,7 @@
 						<ecpay_success_status translate="label">
 							<label>付款完成狀態</label>
 							<frontend_type>select</frontend_type>
-							<sort_order>7</sort_order>
+							<sort_order>8</sort_order>
 							<source_model>ecpaypayment/system_config_source_orderstatuses</source_model>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
@@ -87,7 +100,7 @@
 						<ecpay_failed_status translate="label">
 							<label>付款失敗狀態</label>
 							<frontend_type>select</frontend_type>
-							<sort_order>8</sort_order>
+							<sort_order>9</sort_order>
 							<source_model>ecpaypayment/system_config_source_orderstatuses</source_model>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
@@ -97,7 +110,7 @@
 						<allowspecific translate="label">
 							<label>適用國家</label>
 							<frontend_type>allowspecific</frontend_type>
-							<sort_order>9</sort_order>
+							<sort_order>10</sort_order>
 							<source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
@@ -107,7 +120,7 @@
 						<specificcountry translate="label">
 							<label>指定國家</label>
 							<frontend_type>multiselect</frontend_type>
-							<sort_order>10</sort_order>
+							<sort_order>11</sort_order>
 							<source_model>adminhtml/system_config_source_country</source_model>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>

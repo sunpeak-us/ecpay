@@ -153,7 +153,13 @@ class EcpayCartLibrary
             case ECPay_PaymentMethod::Credit:
                 // Do not support UnionPay
                 $aio->SendExtend['UnionPay'] = false;
-                $aio->SendExtend['Language'] = "Eng";
+				/**
+				 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				 * 1) «Choose a language of the checkout interface per a store»:
+				 * https://github.com/sunpeak-us/ecpay/issues/13
+				 * 2) This option is available only if `ChoosePayment` is `Credit`.
+				 */
+                $aio->SendExtend['Language'] = Mage::getStoreConfig('payment/ecpaypayment/language');
                 // Credit installment parameters
                 $installments = $this->getInstallment($paymentType);
                 if ($installments > 0) {

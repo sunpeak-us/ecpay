@@ -28,16 +28,20 @@
 		<payment>
 			<ecpaypayment>
 				<active>0</active>
-				<model>ecpaypayment/payment</model>
-				<title>綠界整合金流</title>
-				<ecpay_merchant_id>2000132</ecpay_merchant_id>
-				<ecpay_hash_key>5294y06JbISpM5x9</ecpay_hash_key>
-				<ecpay_hash_iv>v77hoKGq4kWxNNIS</ecpay_hash_iv>
-				<ecpay_create_status>pending</ecpay_create_status>
-				<ecpay_success_status>processing</ecpay_success_status>
-				<ecpay_failed_status>holded</ecpay_failed_status>
 				<allowspecific>0</allowspecific>
+				<ecpay_create_status>pending</ecpay_create_status>
+				<ecpay_failed_status>holded</ecpay_failed_status>
+				<ecpay_hash_iv>v77hoKGq4kWxNNIS</ecpay_hash_iv>
+				<ecpay_hash_key>5294y06JbISpM5x9</ecpay_hash_key>
+				<ecpay_merchant_id>2000132</ecpay_merchant_id>
+				<ecpay_success_status>processing</ecpay_success_status>
+<!-- 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+«Choose a language of the checkout interface per a store»:
+https://github.com/sunpeak-us/ecpay/issues/13 -->
+				<language>CHI</language>
+				<model>ecpaypayment/payment</model>
 				<payment_action>sale</payment_action>
+				<title>綠界整合金流</title>
 			</ecpaypayment>
 		</payment>
 	</default>
