@@ -613,7 +613,13 @@ class ECPay_Send extends ECPay_Aio
         $arExtend = self::$PaymentObj->filter_string($arExtend,$arParameters['InvoiceMark']);
 
         //合併共同參數及延伸參數
-        return array_merge($arParameters,$arExtend) ;
+		/**
+		 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * «MerchantMemberID Error»: https://github.com/sunpeak-us/ecpay/issues/17
+		 * The previous (wrong) code was:
+		 * 		return array_merge($arParameters,$arExtend);
+		 */
+        return $arParameters + $arExtend;
     }
 
 
