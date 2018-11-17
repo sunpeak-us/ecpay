@@ -51,9 +51,11 @@ class Ecpay_Ecpaypayment_PaymentController extends Mage_Core_Controller_Front_Ac
 
     public function responseAction()
     {
-		Mage::log(json_encode($_REQUEST,
-			JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-		), 'mage2pro.ecpay.log');
+		/*Mage::log(
+			json_encode($_REQUEST, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+			,null
+			,'mage2pro.ecpay.log'
+		);*/
         echo Mage::helper('ecpaypayment')->getPaymentResult();
         exit;
     }
