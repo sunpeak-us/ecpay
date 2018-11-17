@@ -172,11 +172,16 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 			 */
 			$op = $order->getPayment(); /** @var OP $op */
 			$op->addData([
-				'transaction_id' =>
-					implode('-', [$order->getIncrementId(), Zend_Date::now()->toString('HH:mm:ss')])
+				'transaction_id' =>					
+					implode(' ', [
+						isset($_REQUEST['TradeNo']) ? $_REQUEST['TradeNo'] : $order->getIncrementId()
+						,Zend_Date::now()->setTimezone('Asia/Taipei')->toString('y-MM-dd HH:mm:ss')
+					])
 				,'is_transaction_closed' => false
 			]);
-			$op->setTransactionAdditionalInfo(T::RAW_DETAILS, $_REQUEST);
+			$op->setTransactionAdditionalInfo(T::RAW_DETAILS, array_filter($_REQUEST, function($v) {return
+				'' !== strval($v)
+			;}));
 			$op->addTransaction(T::TYPE_PAYMENT, $order)->save();
 			/**
 			 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro

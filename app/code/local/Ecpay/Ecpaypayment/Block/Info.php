@@ -1,5 +1,6 @@
 <?php
 use Mage_Directory_Model_Currency as C;
+use Mage_Payment_Model_Info as II;
 use Mage_Sales_Model_Order as O;
 use Mage_Sales_Model_Order_Payment as P;
 /**
@@ -19,17 +20,23 @@ final class Ecpay_Ecpaypayment_Block_Info extends Mage_Payment_Block_Info {
 	 * @return array(string => string|string[])
 	 */
 	function getSpecificInformation() {
-		$p = $this->getInfo(); /** @var P $p */
-		$o = $p->getOrder(); /** @var O $o */
-		$b = $o->getBaseCurrency(); /** @var C $b */
-		$bc = $b->getCode(); /** @var string $bc */
-		$a = $p->getAdditionalInformation(self::TOTAL_TWD); /** @var int|null $a */
-		return $this->getIsSecureMode() || !$a ? [] : array_filter([
-			'Amount in TWD:' => $a
-			// $cb->formatPrecision($o->getBaseGrandTotal(), 2, [], false)
-			,"Amount in $bc:" => number_format($o->getBaseGrandTotal(), 2)
-			,"$bc / TWD rate:" => number_format($p->getAdditionalInformation(self::RATE), 2)
-		]);
+		/** @var array(string => string|string[]) $r */	/** @var P $p */
+		if (!($p = $this->getInfo()) instanceof P) {
+			$r = [];
+		}
+		else {
+			$o = $p->getOrder(); /** @var O $o */
+			$b = $o->getBaseCurrency(); /** @var C $b */
+			$bc = $b->getCode(); /** @var string $bc */
+			$a = $p->getAdditionalInformation(self::TOTAL_TWD); /** @var int|null $a */
+			$r = $this->getIsSecureMode() || !$a ? [] : array_filter([
+				'Amount in TWD:' => $a
+				// $cb->formatPrecision($o->getBaseGrandTotal(), 2, [], false)
+				,"Amount in $bc:" => number_format($o->getBaseGrandTotal(), 2)
+				,"$bc / TWD rate:" => number_format($p->getAdditionalInformation(self::RATE), 2)
+			]);
+		}
+		return $r;
 	}
 
 	/**
