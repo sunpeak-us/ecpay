@@ -1,7 +1,7 @@
 <?php
-use \Mage_Checkout_Model_Session as CheckoutSession;
-use \Mage_Sales_Model_Order as O;
-use \Mage_Sales_Model_Quote as Q;
+use ECPay_Ecpaypayment_Redirector as R;
+use Mage_Checkout_Model_Session as CheckoutSession;
+use Mage_Sales_Model_Order as O;
 class Ecpay_Ecpaypayment_PaymentController extends Mage_Core_Controller_Front_Action
 {
 	/**
@@ -24,21 +24,14 @@ class Ecpay_Ecpaypayment_PaymentController extends Mage_Core_Controller_Front_Ac
 			$this->getResponse()->setRedirect(Mage::getUrl('checkout/onepage/success'));
 		}
 		else {
-			if ($o && $o->canCancel()) {
-				$o->cancel()->save();
-			}
-			if ($qid = $ss->getData('last_success_quote_id')) {  /** @var int|null $qid */
-				$q = Mage::getModel('sales/quote');	/** @var Q $q */
-				$q->load($qid);
-				$q->setIsActive(true);
-				$q->save();
-			}
+			R::restoreQuote();
 			$this->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
 		}
     }
 
     public function redirectAction()
     {
+    	R::set();
         $this->loadLayout();
         $block = $this->getLayout()->createBlock(
             'Mage_Core_Block_Template',

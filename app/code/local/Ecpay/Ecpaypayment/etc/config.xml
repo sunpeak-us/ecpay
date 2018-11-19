@@ -59,6 +59,16 @@ https://github.com/sunpeak-us/ecpay/issues/13 -->
     </adminhtml>
 
 	<frontend>
+		<events>
+			<controller_action_predispatch_checkout>
+				<observers>
+					<ecpay__controller_action_predispatch_checkout>
+						<class>ECPay_Ecpaypayment_O</class>
+						<method>controller_action_predispatch_checkout</method>
+					</ecpay__controller_action_predispatch_checkout>
+				</observers>
+			</controller_action_predispatch_checkout>
+		</events>
 		<routers>
 			<ecpaypayment>
 				<use>standard</use>
