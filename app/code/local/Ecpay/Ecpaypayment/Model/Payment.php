@@ -1,5 +1,5 @@
 <?php
-class ECPay_Ecpaypayment_Model_Payment extends Mage_Payment_Model_Method_Abstract
+class Ecpay_Ecpaypayment_Model_Payment extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'ecpaypayment';
     protected $_formBlockType = 'ecpaypayment/form_ecpaypayment';

@@ -1,11 +1,11 @@
 <?php
-use ECPay_Ecpaypayment_Redirector as R;
+use Ecpay_Ecpaypayment_Redirector as R;
 use Mage_Core_Controller_Varien_Action as C;
 use Varien_Event_Observer as Ob;
 // 2018-11-19 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 // "Handle the browser's «Back» button on the ECPay payment form":
 // https://github.com/sunpeak-us/ecpay/issues/18
-final class ECPay_Ecpaypayment_O {
+final class Ecpay_Ecpaypayment_O {
 	/**
 	 * 2018-11-19
 	 * @used-by R::restoreQuote()

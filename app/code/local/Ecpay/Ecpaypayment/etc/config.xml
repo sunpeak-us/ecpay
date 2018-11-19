@@ -63,7 +63,7 @@ https://github.com/sunpeak-us/ecpay/issues/13 -->
 			<controller_action_predispatch_checkout>
 				<observers>
 					<ecpay__controller_action_predispatch_checkout>
-						<class>ECPay_Ecpaypayment_O</class>
+						<class>Ecpay_Ecpaypayment_O</class>
 						<method>controller_action_predispatch_checkout</method>
 					</ecpay__controller_action_predispatch_checkout>
 				</observers>

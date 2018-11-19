@@ -309,7 +309,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
 	/**
 	 * 2018-11-15
-	 * @var ECPay_Ecpaypayment_Model_Payment
+	 * @var Ecpay_Ecpaypayment_Model_Payment
 	 */
     private $paymentModel = null;
     private $prefix = 'ecpay_';

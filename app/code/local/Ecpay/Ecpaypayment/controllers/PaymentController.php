@@ -1,5 +1,5 @@
 <?php
-use ECPay_Ecpaypayment_Redirector as R;
+use Ecpay_Ecpaypayment_Redirector as R;
 use Mage_Checkout_Model_Session as CheckoutSession;
 use Mage_Sales_Model_Order as O;
 class Ecpay_Ecpaypayment_PaymentController extends Mage_Core_Controller_Front_Action
@@ -14,7 +14,7 @@ class Ecpay_Ecpaypayment_PaymentController extends Mage_Core_Controller_Front_Ac
 	 */
     function customerReturnAction() {
 		$ss = Mage::getSingleton('checkout/session'); /** @var CheckoutSession $ss */
-		$m = Mage::getModel('ecpaypayment/payment'); /** @var \ECPay_Ecpaypayment_Model_Payment $m */
+		$m = Mage::getModel('ecpaypayment/payment'); /** @var \Ecpay_Ecpaypayment_Model_Payment $m */
 		/** @var O|null $o */
 		if (
 			($o = $ss->getLastRealOrder())

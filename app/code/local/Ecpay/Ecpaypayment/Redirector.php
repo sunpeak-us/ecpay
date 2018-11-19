@@ -5,10 +5,10 @@ use Mage_Sales_Model_Quote as Q;
 // 2018-11-19 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 // "Handle the browser's «Back» button on the ECPay payment form":
 // https://github.com/sunpeak-us/ecpay/issues/18
-final class ECPay_Ecpaypayment_Redirector {
+final class Ecpay_Ecpaypayment_Redirector {
 	/**
 	 * 2018-11-19
-	 * @used-by \ECPay_Ecpaypayment_O::controller_action_predispatch_checkout()
+	 * @used-by \Ecpay_Ecpaypayment_O::controller_action_predispatch_checkout()
 	 * @return bool
 	 */
 	static function is() {return !!self::sess()->getData(self::$K);}
@@ -16,7 +16,7 @@ final class ECPay_Ecpaypayment_Redirector {
 	/**
 	 * 2018-11-19
 	 * @used-by \Ecpay_Ecpaypayment_PaymentController::customerReturnAction()
-	 * @used-by \ECPay_Ecpaypayment_O::controller_action_predispatch_checkout()
+	 * @used-by \Ecpay_Ecpaypayment_O::controller_action_predispatch_checkout()
 	 */
 	static function restoreQuote() {
 		$o = self::sess()->getLastRealOrder(); /** @var O $o */
