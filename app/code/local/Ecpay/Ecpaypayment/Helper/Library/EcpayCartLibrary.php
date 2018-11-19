@@ -159,7 +159,9 @@ class EcpayCartLibrary
 				 * https://github.com/sunpeak-us/ecpay/issues/13
 				 * 2) This option is available only if `ChoosePayment` is `Credit`.
 				 */
-                $aio->SendExtend['Language'] = Mage::getStoreConfig('payment/ecpaypayment/language');
+				if (($l = Mage::getStoreConfig('payment/ecpaypayment/language')) && 'CHI' !== $l) {
+					$aio->SendExtend['Language'] = $l;
+				}
                 // Credit installment parameters
                 $installments = $this->getInstallment($paymentType);
                 if ($installments > 0) {
