@@ -21,6 +21,13 @@ class Ecpay_Ecpaypayment_PaymentController extends Mage_Core_Controller_Front_Ac
 			&& !$o->isCanceled()
 			&& $o->getStatus() !== $m->getEcpayConfig('failed_status')
 		) {
+			/**
+			 * 2019-01-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * «Improve ECpay module for Magento 1: send order emails to customers»
+			 * https://www.upwork.com/ab/f/contracts/21411797
+			 * https://github.com/sunpeak-us/ecpay/issues/20
+			 */
+			$o->sendNewOrderEmail();
 			$this->getResponse()->setRedirect(Mage::getUrl('checkout/onepage/success'));
 		}
 		else {
