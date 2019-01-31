@@ -1,7 +1,6 @@
-﻿,
-ecpay_payment_checkout_invalid_payment,"Invalid payment method: %s"
+﻿ecpay_payment_checkout_invalid_payment,"Invalid payment method: %s"
 ecpay_payment_checkout_invalid_order,"Invalid order"
-ecpay_payment_text_credit,"Credit"
+ecpay_payment_text_credit,"Visa/MC"
 ecpay_payment_text_credit_3,"Credit(3 Installments)"
 ecpay_payment_text_credit_6,"Credit(6 Installments)"
 ecpay_payment_text_credit_12,"Credit(12 Installments)"

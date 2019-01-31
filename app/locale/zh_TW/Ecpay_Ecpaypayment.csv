@@ -1,7 +1,6 @@
-﻿,
 ecpay_payment_checkout_invalid_payment,"無效的付款方式: %s"
 ecpay_payment_checkout_invalid_order,"無效的訂單"
-ecpay_payment_text_credit,"信用卡(一次付清)"
+ecpay_payment_text_credit,"Visa/MC"
 ecpay_payment_text_credit_3,"信用卡(3期)"
 ecpay_payment_text_credit_6,"信用卡(6期)"
 ecpay_payment_text_credit_12,"信用卡(12期)"

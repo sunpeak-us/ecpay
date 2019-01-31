@@ -41,7 +41,7 @@ https://github.com/sunpeak-us/ecpay/issues/13 -->
 				<language>CHI</language>
 				<model>ecpaypayment/payment</model>
 				<payment_action>sale</payment_action>
-				<title>綠界整合金流</title>
+				<title>Credit Card</title>
 			</ecpaypayment>
 		</payment>
 	</default>
