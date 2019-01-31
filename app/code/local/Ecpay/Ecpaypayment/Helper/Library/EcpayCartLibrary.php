@@ -74,6 +74,25 @@ class EcpayCartLibrary
         $aio->EncryptType = $this->encryptType;
         $aio->Send['ReturnURL'] = $data['returnUrl'];
         $aio->Send['ClientBackURL'] = $this->filterUrl($data['clientBackUrl']);
+		/**
+		 * 2018-12-31 Dmitry Fedyuk
+		 * «I noticed in the API there is a OrderResultURL.
+		 * If the module uses that, would it send user to my "success page" as well as send email?
+		 * I need this so my analytics work properly as well. is this something you can do?»
+		 * https://www.upwork.com/messages/rooms/room_8bf1854c3fba70df7125300ad02cb42e/story_71556a912a8c8318f401f3c986399454
+		 * «Problem is customers checkout with ecpay right now don’t see the Magento checkout success page
+		 * unless they click button to return.
+		 * This means I get no google analytics results, no email confirmation.
+		 * So I am curious does that orderresulturl key bring user back to Magento page
+		 * after successful charge, and can it create email?
+		 * I need those features, tell me price and I’ll set up job now.»
+		 * https://www.upwork.com/messages/rooms/room_8bf1854c3fba70df7125300ad02cb42e/story_71556a912a8c8318f401f3c986399454
+		 * 2019-01-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * «Improve the ECPay payment module for Magento 1: implement the OrderResultURL parameter passing»
+		 * https://www.upwork.com/ab/f/contracts/21411800
+		 * https://github.com/sunpeak-us/ecpay/issues/19
+		 */
+        $aio->Send[self::OrderResultURL] = $this->filterUrl($data[self::OrderResultURL]);
         $aio->Send['MerchantTradeNo'] = $this->getMerchantTradeNo($data['orderId']);
         $aio->Send['MerchantTradeDate'] = $this->tradeTime;
         $aio->Send['TradeDesc'] = $data['version'];
@@ -633,4 +652,15 @@ class EcpayCartLibrary
     public function getUnixTime($dateString) {
         return strtotime($dateString);
     }
+
+	/**
+	 * 2018-12-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2019-01-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * «Improve the ECPay payment module for Magento 1: implement the OrderResultURL parameter passing»
+	 * https://www.upwork.com/ab/f/contracts/21411800
+	 * https://github.com/sunpeak-us/ecpay/issues/19
+	 * @used-by checkout()
+	 * @used-by \Ecpay_Ecpaypayment_Helper_Data::getRedirectHtml()
+	 */
+    const OrderResultURL = 'OrderResultURL';
 }

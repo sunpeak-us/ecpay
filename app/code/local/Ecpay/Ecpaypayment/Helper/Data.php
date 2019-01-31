@@ -120,6 +120,25 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 				 */
                 'clientBackUrl' => $this->paymentModel->getModuleUrl('customerReturn'),
                 'orderId' => $orderId,
+				/**
+				 * 2018-12-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				 * «I noticed in the API there is a OrderResultURL.
+				 * If the module uses that, would it send user to my "success page" as well as send email?
+				 * I need this so my analytics work properly as well. is this something you can do?»
+				 * https://www.upwork.com/messages/rooms/room_8bf1854c3fba70df7125300ad02cb42e/story_71556a912a8c8318f401f3c986399454
+				 * «Problem is customers checkout with ecpay right now don’t see the Magento checkout success page
+				 * unless they click button to return.
+				 * This means I get no google analytics results, no email confirmation.
+				 * So I am curious does that orderresulturl key bring user back to Magento page
+				 * after successful charge, and can it create email?
+				 * I need those features, tell me price and I’ll set up job now.»
+				 * https://www.upwork.com/messages/rooms/room_8bf1854c3fba70df7125300ad02cb42e/story_71556a912a8c8318f401f3c986399454
+				 * 2019-01-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				 * «Improve the ECPay payment module for Magento 1: implement the OrderResultURL parameter passing»
+				 * https://www.upwork.com/ab/f/contracts/21411800
+				 * https://github.com/sunpeak-us/ecpay/issues/19
+				 */
+				EcpayCartLibrary::OrderResultURL => $this->paymentModel->getModuleUrl('customerReturn'),
 				// 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 				// "The module should pass payment amounts to the ECPay's API in NTD":
 				// https://github.com/sunpeak-us/ecpay/issues/9
