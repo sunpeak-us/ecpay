@@ -56,6 +56,13 @@ final class Ecpay_Ecpaypayment_O {
 			}
 			else {
 				R::restoreQuote();
+				// 2019-02-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				// Without this code block a guest customer will be returned
+				// to the `checkout/onepage` page instead of the `checkout/cart` page.
+				if ('checkout_cart_index' !== $c->getFullActionName()) {
+					$c->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
+					$c->setFlag('', C::FLAG_NO_DISPATCH, true);
+				}
 			}
 		}
 	}

@@ -28,6 +28,11 @@ final class Ecpay_Ecpaypayment_Redirector {
 			$q->load($qid);
 			$q->setIsActive(true);
 			$q->save();
+			// 2019-02-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			// «When a customer checkouts as a guest, but cancels at ECPay checkout,
+			// the contents do not stay in cart».
+			// https://github.com/sunpeak-us/ecpay/issues/21
+			self::sess()->replaceQuote($q);
 		}
 		self::unset();
 	}
