@@ -31,7 +31,7 @@ final class Ecpay_Ecpaypayment_Block_Info extends Mage_Payment_Block_Info {
 			$a = $p->getAdditionalInformation(self::TOTAL_TWD); /** @var int|null $a */
 			$r = $this->getIsSecureMode() || !$a ? [] : array_filter([
 				'Amount in TWD:' => $a
-				// $cb->formatPrecision($o->getBaseGrandTotal(), 2, [], false)
+				# $cb->formatPrecision($o->getBaseGrandTotal(), 2, [], false)
 				,"Amount in $bc:" => number_format($o->getBaseGrandTotal(), 2)
 				,"$bc / TWD rate:" => number_format($p->getAdditionalInformation(self::RATE), 2)
 			]);

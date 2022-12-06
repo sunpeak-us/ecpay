@@ -3,24 +3,24 @@
 class EcpayCartLibrary
 {
     private $merchantId = '';
-    private $stageMids = ['2000132', '2000214']; // Stage merchant id
-    private $isTest = false; // Test mode
-    private $provider = 'ECPay'; // Service provider
-    private $tradeTime = ''; // Trade time
-    private $orderPrefix = ''; // MerchantTradeNo prefix
-    private $encryptType = ''; // Encrypt type
+    private $stageMids = ['2000132', '2000214']; # Stage merchant id
+    private $isTest = false; # Test mode
+    private $provider = 'ECPay'; # Service provider
+    private $tradeTime = ''; # Trade time
+    private $orderPrefix = ''; # MerchantTradeNo prefix
+    private $encryptType = ''; # Encrypt type
     private $productUrl = 'https://payment.ecpay.com.tw';
     private $stageUrl = 'https://payment-stage.ecpay.com.tw';
     private $functionPath = [
         'checkOut' => '/Cashier/AioCheckOut/V5',
         'queryTrade' => '/Cashier/QueryTradeInfo/V5',
-    ]; // API function path
+    ]; # API function path
     private $successCodes = [
         'payment' => 1,
         'atmGetCode' => 2,
         'cvsGetCode' => 10100073,
         'barcodeGetCode' => 10100073,
-    ]; // API success return code
+    ]; # API success return code
 
     public function __construct($data)
     {
@@ -47,9 +47,9 @@ class EcpayCartLibrary
      */
     public function loadSdk()
     {
-		// 2018-11-01 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-		// «Warning: include(ECPay\AllInOne.php): failed to open stream: No such file or directory».
-		// https://github.com/sunpeak-us/ecpay/issues/1
+		# 2018-11-01 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		# «Warning: include(ECPay\AllInOne.php): failed to open stream: No such file or directory».
+		# https://github.com/sunpeak-us/ecpay/issues/1
         if (!@class_exists('ECPay_AllInOne', false)) {
             include('ECPay.Payment.Integration.php');
         }
@@ -65,12 +65,12 @@ class EcpayCartLibrary
     {
         $paymentType = $data['choosePayment'];
 
-        // Set SDK parameters
-        $aio = $this->getAio(); // Get AIO object
+        # Set SDK parameters
+        $aio = $this->getAio(); # Get AIO object
         $aio->MerchantID = $this->merchantId;
         $aio->HashKey = $data['hashKey'];
         $aio->HashIV = $data['hashIv'];
-        $aio->ServiceURL = $this->getUrl('checkOut'); // Get Checkout URL
+        $aio->ServiceURL = $this->getUrl('checkOut'); # Get Checkout URL
         $aio->EncryptType = $this->encryptType;
         $aio->Send['ReturnURL'] = $data['returnUrl'];
         $aio->Send['ClientBackURL'] = $this->filterUrl($data['clientBackUrl']);
@@ -108,8 +108,8 @@ class EcpayCartLibrary
 		 */
         $aio->Send['TotalAmount'] = $this->getAmount($data['total']);
         $aio->Send['ChoosePayment'] = $this->getPaymentMethod($paymentType);
-		// 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-		// «Bind bank cards to the customers»: https://github.com/sunpeak-us/ecpay/issues/12
+		# 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		# «Bind bank cards to the customers»: https://github.com/sunpeak-us/ecpay/issues/12
 		$cs = Mage::getSingleton('customer/session'); /** @var \Mage_Customer_Model_Session $cs */
 		if ($cs->isLoggedIn()) {
 			/**
@@ -147,7 +147,7 @@ class EcpayCartLibrary
 			 */
 			$aio->Send['MerchantMemberID'] = "{$this->merchantId}_{$cs->getId()}";
 		}
-        // Set the product info
+        # Set the product info
         $aio->Send['Items'][] = [
             'Name' => $data['itemName'],
             'Price' => $aio->Send['TotalAmount'],
@@ -167,10 +167,10 @@ class EcpayCartLibrary
             'URL' => '',
         ];
         
-        // Set the extend information
+        # Set the extend information
         switch ($aio->Send['ChoosePayment']) {
             case ECPay_PaymentMethod::Credit:
-                // Do not support UnionPay
+                # Do not support UnionPay
                 $aio->SendExtend['UnionPay'] = false;
 				/**
 				 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
@@ -181,7 +181,7 @@ class EcpayCartLibrary
 				if (($l = Mage::getStoreConfig('payment/ecpaypayment/language')) && 'CHI' !== $l) {
 					$aio->SendExtend['Language'] = $l;
 				}
-                // Credit installment parameters
+                # Credit installment parameters
                 $installments = $this->getInstallment($paymentType);
                 if ($installments > 0) {
                     $aio->SendExtend['CreditInstallment'] = $installments;
@@ -361,15 +361,15 @@ class EcpayCartLibrary
      */
     public function getValidFeedback($data)
     {
-        $feedback = $this->getFeedback($data); // AIO feedback
-        $info = $this->getTradeInfo($feedback, $data); // Trade info
+        $feedback = $this->getFeedback($data); # AIO feedback
+        $info = $this->getTradeInfo($feedback, $data); # Trade info
 
-        // Check the amount
+        # Check the amount
         if (!$this->validAmount($feedback['TradeAmt'], $info['TradeAmt'])) {
             throw new Exception('Invalid ' . $this->provider . ' feedback.(1)');
         }
 
-        // Check the status when in product
+        # Check the status when in product
         if ($this->isTest === false) {
             if ($this->isSuccess($feedback, 'payment') === true) {
                 if ($this->toInt($info['TradeStatus']) !== 1) {
@@ -432,19 +432,19 @@ class EcpayCartLibrary
         $paymentFailed = $this->getPaymentFailed($orderId, $feedback);
         $statusError = $this->getStatusError($orderId);
 
-        // Check the response status
-        //   0:failed
-        //   1:Paid
-        //   2:ATM get code
-        //   3:CVS get code
-        //   4:BARCODE get code
+        # Check the response status
+        #   0:failed
+        #   1:Paid
+        #   2:ATM get code
+        #   3:CVS get code
+        #   4:BARCODE get code
         $responseStatus = 0;
         switch($paymentMethod) {
             case ECPay_PaymentMethod::Credit:
             case ECPay_PaymentMethod::WebATM:
                 if ($this->isSuccess($feedback, 'payment') === true) {
                     if ($validStatus === true) {
-                        $responseStatus = 1; // Paid
+                        $responseStatus = 1; # Paid
                     } else {
                         throw new Exception($statusError);
                     }
@@ -455,12 +455,12 @@ class EcpayCartLibrary
             case ECPay_PaymentMethod::ATM:
                 if ($this->isSuccess($feedback, 'payment') === true) {
                     if ($validStatus === true) {
-                        $responseStatus = 1; // Paid
+                        $responseStatus = 1; # Paid
                     } else {
                         throw new Exception($statusError);
                     }
                 } elseif ($this->isSuccess($feedback, 'atmGetCode') === true) {
-                    $responseStatus = 2; // ATM get code
+                    $responseStatus = 2; # ATM get code
                 } else {
                     throw new Exception($paymentFailed);
                 }
@@ -468,12 +468,12 @@ class EcpayCartLibrary
             case ECPay_PaymentMethod::CVS:
                 if ($this->isSuccess($feedback, 'payment') === true) {
                     if ($validStatus === true) {
-                        $responseStatus = 1; // Paid
+                        $responseStatus = 1; # Paid
                     } else {
                         throw new Exception($statusError);
                     }
                 } elseif ($this->isSuccess($feedback, 'cvsGetCode') === true) {
-                    $responseStatus = 3; // CVS get code
+                    $responseStatus = 3; # CVS get code
                 } else {
                     throw new Exception($paymentFailed);
                 }
@@ -481,12 +481,12 @@ class EcpayCartLibrary
             case ECPay_PaymentMethod::BARCODE:
                 if ($this->isSuccess($feedback, 'payment') === true) {
                     if ($validStatus === true) {
-                        $responseStatus = 1; // Paid
+                        $responseStatus = 1; # Paid
                     } else {
                         throw new Exception($statusError);
                     }
                 } elseif ($this->isSuccess($feedback, 'barcodeGetCode') === true) {
-                    $responseStatus = 4; // Barcode get code
+                    $responseStatus = 4; # Barcode get code
                 } else {
                     throw new Exception($paymentFailed);
                 }

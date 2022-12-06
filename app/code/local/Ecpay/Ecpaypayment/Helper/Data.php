@@ -76,19 +76,19 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         try {
             $this->paymentModel->loadLibrary();
             $sdkHelper = $this->paymentModel->getHelper();  /** @var \EcpayCartLibrary $sdkHelper */
-            // Validate choose payment
+            # Validate choose payment
             $choosenPayment = $this->getChoosenPayment();
             if ($this->isValidPayment($choosenPayment) === false) {
                 throw new Exception($this->getErrorMessage('invalidPayment', $choosenPayment));
             }
 
-            // Validate the order id
+            # Validate the order id
             $orderId = $this->getOrderId();
             if (!$orderId) {
                 throw new Exception($this->getErrorMessage('invalidOrder', ''));
             }
 
-            // Update order status and comments
+            # Update order status and comments
             $order = $this->getOrder($orderId); /** @var O $order */
             $createStatus = $this->paymentModel->getEcpayConfig('create_status');
             $pattern = $this->__('ecpay_payment_order_comment_payment_method');
@@ -100,9 +100,9 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             $checkoutSession->setEcpaypaymentQuoteId($checkoutSession->getQuoteId());
             $checkoutSession->setEcpaypaymentRealOrderId($orderId);
             $checkoutSession->getQuote()->setIsActive(false)->save();
-//            $checkoutSession->clear();
+#            $checkoutSession->clear();
 
-            // Checkout
+            # Checkout
             $helperData = array(
                 'choosePayment' => $choosenPayment,
                 'hashKey' => $this->paymentModel->getEcpayConfig('hash_key'),
@@ -139,9 +139,9 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 				 * https://github.com/sunpeak-us/ecpay/issues/19
 				 */
 				EcpayCartLibrary::OrderResultURL => $this->paymentModel->getModuleUrl('customerReturn'),
-				// 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-				// "The module should pass payment amounts to the ECPay's API in NTD":
-				// https://github.com/sunpeak-us/ecpay/issues/9
+				# 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				# "The module should pass payment amounts to the ECPay's API in NTD":
+				# https://github.com/sunpeak-us/ecpay/issues/9
                 'total' => ($totalInTWD = $this->toTWD($order)),  /** @var int $totalInTWD */
                 'itemName' => $this->__('ecpay_payment_redirect_text_item_name'),
                 'version' => $this->prefix . 'module_magento_2.1.0206',
@@ -174,7 +174,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             $this->paymentModel->loadLibrary();
             $sdkHelper = $this->paymentModel->getHelper(); /** @var \EcpayCartLibrary $sdkHelper */
 
-            // Get valid feedback
+            # Get valid feedback
             $helperData = array(
                 'hashKey' => $this->paymentModel->getEcpayConfig('hash_key'),
                 'hashIv' => $this->paymentModel->getEcpayConfig('hash_iv'),
@@ -210,12 +210,12 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 			 * 2) "The module should pass payment amounts to the ECPay's API in NTD":
 			 * https://github.com/sunpeak-us/ecpay/issues/9
 			 */
-            // Check the amounts
+            # Check the amounts
             if ($sdkHelper->validAmount($feedback['TradeAmt'], $this->toTWD($order)) === false) {
-                // throw new Exception($sdkHelper->getAmountError($orderId));
+                # throw new Exception($sdkHelper->getAmountError($orderId));
             }
 
-            // Get the response status
+            # Get the response status
             $orderStatus = $order->getState();
             $createStatus = $this->paymentModel->getEcpayConfig('create_status');
             $helperData = array(
@@ -225,14 +225,14 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             $responseStatus = $sdkHelper->getResponseStatus($feedback, $helperData);
             unset($helperData);
 
-            // Update the order status
+            # Update the order status
             $patterns = array(
                 2 => $this->__('ecpay_payment_order_comment_atm'),
                 3 => $this->__('ecpay_payment_order_comment_cvs'),
                 4 => $this->__('ecpay_payment_order_comment_barcode'),
             );
             switch($responseStatus) {
-                // Paid
+                # Paid
                 case 1:
                     $status = $this->paymentModel->getEcpayConfig('success_status');
                     $pattern = $this->__('ecpay_payment_order_comment_payment_result');
@@ -240,9 +240,9 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                     $order->setState($status, $status, $comment, $this->resultNotify)->save();
                     unset($status, $pattern, $comment);
                     break;
-                case 2:// ATM get code
-                case 3:// CVS get code
-                case 4:// Barcode get code
+                case 2:# ATM get code
+                case 3:# CVS get code
+                case 4:# Barcode get code
                     $status = $orderStatus;
                     $pattern = $patterns[$responseStatus];
                     $comment = $sdkHelper->getObtainingCodeComment($pattern, $feedback);
@@ -269,7 +269,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 unset($status, $pattern, $comment);
             }
             
-            // Set the failure result
+            # Set the failure result
             $resultMessage = '0|' . $error;
         }
         echo $resultMessage;
