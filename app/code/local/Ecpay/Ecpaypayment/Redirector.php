@@ -52,18 +52,18 @@ final class Ecpay_Ecpaypayment_Redirector {
 
 	/**
 	 * 2018-11-19
-	 * @used-by is()
-	 * @used-by set()
-	 * @used-by unset()
+	 * @used-by self::is()
+	 * @used-by self::set()
+	 * @used-by self::unset()
 	 * @return Session
 	 */
 	static private function sess() {return Mage::getSingleton('checkout/session');}
 
 	/**
 	 * 2018-11-19
-	 * @used-by is()
-	 * @used-by set()
-	 * @used-by unset()
+	 * @used-by self::is()
+	 * @used-by self::set()
+	 * @used-by self::unset()
 	 * @var string
 	 */
 	private static $K = 'mage2pro_ecpay_redirected';
