@@ -41,9 +41,7 @@ class Ecpay_Ecpaypayment_PaymentController extends Mage_Core_Controller_Front_Ac
     	R::set();
         $this->loadLayout();
         $block = $this->getLayout()->createBlock(
-            'Mage_Core_Block_Template',
-            'ecpaypayment',
-            array('template' => 'ecpaypayment/redirect.phtml')
+            'Mage_Core_Block_Template', 'ecpaypayment', ['template' => 'ecpaypayment/redirect.phtml']
         );
         $this->getLayout()->getBlock('content')->append($block);
         $this->renderLayout();
