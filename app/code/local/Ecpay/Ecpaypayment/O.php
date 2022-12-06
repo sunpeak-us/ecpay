@@ -34,11 +34,10 @@ final class Ecpay_Ecpaypayment_O {
 			$c = $ob->getData('controller_action'); /** @var C $c */
 			if ('checkout_onepage_success' === $c->getFullActionName()) {
 				/**
-				 * В отличие от метода
-				 * @see Df_Payment_Model_Action_Confirm::process()
-				 * здесь необходимость вызова unsetRedirected() не вызывает сомнений,
-				 * потому что Df_Checkout_Model_Dispatcher:controller_action_predispatch_checkout()
-				 * обрабатывает именно сессию покупателя, а не запрос платёжной системы
+				 * В отличие от метода @see Df_Payment_Model_Action_Confirm::process()
+				 * здесь необходимость вызова @see \Ecpay_Ecpaypayment_Redirector::unset() не вызывает сомнений,
+				 * потому что @see controller_action_predispatch_checkout()
+				 * обрабатывает именно сессию покупателя, а не запрос платёжной системы.
 				 */
 				R::unset();
 			}
