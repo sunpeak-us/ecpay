@@ -7,7 +7,7 @@ use Varien_Event_Observer as Ob;
 final class Ecpay_Ecpaypayment_O {
 	/**
 	 * 2018-11-19
-	 * @used-by R::restoreQuote()
+	 * @used-by \Mage_Core_Model_App::dispatchEvent()
 	 * @param Ob $ob
 	 */
 	function controller_action_predispatch_checkout(Ob $ob) {
