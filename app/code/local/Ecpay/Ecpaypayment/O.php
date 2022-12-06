@@ -9,7 +9,6 @@ final class Ecpay_Ecpaypayment_O {
 	 * 2018-11-19
 	 * @used-by R::restoreQuote()
 	 * @param Ob $ob
-	 * @return void
 	 */
 	function controller_action_predispatch_checkout(Ob $ob) {
 		/**
