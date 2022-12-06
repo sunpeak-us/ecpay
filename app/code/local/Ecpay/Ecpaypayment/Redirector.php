@@ -45,6 +45,8 @@ final class Ecpay_Ecpaypayment_Redirector {
 
 	/**
 	 * 2018-11-19
+     * @used-by self::restoreQuote()
+     * @used-by \Ecpay_Ecpaypayment_O::controller_action_predispatch_checkout()
 	 */
 	static function unset() {self::sess()->unsetData(self::$K);}
 
