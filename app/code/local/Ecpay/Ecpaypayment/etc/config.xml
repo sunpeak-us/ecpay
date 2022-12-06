@@ -34,8 +34,7 @@
 				<ecpay_merchant_id>2000132</ecpay_merchant_id>
 				<ecpay_success_status>processing</ecpay_success_status>
 <!-- 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-«Choose a language of the checkout interface per a store»:
-https://github.com/sunpeak-us/ecpay/issues/13 -->
+«Choose a language of the checkout interface per a store»: https://github.com/sunpeak-us/ecpay/issues/13 -->
 				<language>CHI</language>
 				<model>ecpaypayment/payment</model>
 				<payment_action>sale</payment_action>
