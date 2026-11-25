@@ -4,7 +4,7 @@ use Mage_Payment_Model_Info as II;
 use Mage_Sales_Model_Order as O;
 use Mage_Sales_Model_Order_Payment as P;
 /**
- * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+ * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
  * «Backend needs to note:
  * 1) the currency rate used,
  * 2) the actual amount charged to the customer (in TWD)
@@ -13,7 +13,7 @@ use Mage_Sales_Model_Order_Payment as P;
  */
 final class Ecpay_Ecpaypayment_Block_Info extends Mage_Payment_Block_Info {
 	/**
-	 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * @override
 	 * @see Mage_Payment_Block_Info::getSpecificInformation()
 	 * @used-by app/design/adminhtml/default/default/template/payment/info/default.phtml
@@ -40,14 +40,14 @@ final class Ecpay_Ecpaypayment_Block_Info extends Mage_Payment_Block_Info {
 	}
 
 	/**
-	 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * @used-by getSpecificInformation()
 	 * @used-by \Ecpay_Ecpaypayment_Helper_Data::getRedirectHtml()
 	 */
 	const RATE = 'ecpay_rate';
 
 	/**
-	 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * @used-by getSpecificInformation()
 	 * @used-by \Ecpay_Ecpaypayment_Helper_Data::getRedirectHtml()
 	 */

@@ -391,7 +391,7 @@ abstract class ECPay_InvType {
   # 特種稅額
   const Special = '08';
 }
-# 2018-11-01 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# 2018-11-01 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 # «Warning: include(ECPay\EncryptType.php): failed to open stream: No such file or directory»:
 # https://github.com/sunpeak-us/ecpay/issues/2
 if(!@class_exists('ECPay_EncryptType'))
@@ -614,7 +614,7 @@ class ECPay_Send extends ECPay_Aio
 
         //合併共同參數及延伸參數
 		/**
-		 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 		 * «MerchantMemberID Error»: https://github.com/sunpeak-us/ecpay/issues/17
 		 * The previous (wrong) code was:
 		 * 		return array_merge($arParameters,$arExtend);
@@ -1464,7 +1464,7 @@ class ECPay_Credit extends ECPay_Verification
 		'Redeem'            => FALSE,
 		'UnionPay'          => FALSE,
 		'Language'          => '',
-		# 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		# 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 		# «BidingCard» => «BindingCard»: https://github.com/sunpeak-us/ecpay/issues/16
 		'BindingCard'        => '',
 		'MerchantMemberID'  => '',
@@ -1510,7 +1510,7 @@ class ECPay_AndroidPay extends ECPay_Verification
 /**
 *  檢查碼
 */
-# 2018-11-01 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# 2018-11-01 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 # «Warning: include(ECPay\CheckMacValue.php): failed to open stream: No such file or directory»:
 # https://github.com/sunpeak-us/ecpay/issues/3
 if(!@class_exists('ECPay_CheckMacValue'))

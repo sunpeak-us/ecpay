@@ -47,7 +47,7 @@ class EcpayCartLibrary
      */
     public function loadSdk()
     {
-		# 2018-11-01 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		# 2018-11-01 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 		# «Warning: include(ECPay\AllInOne.php): failed to open stream: No such file or directory».
 		# https://github.com/sunpeak-us/ecpay/issues/1
         if (!@class_exists('ECPay_AllInOne', false)) {
@@ -56,7 +56,7 @@ class EcpayCartLibrary
     }
 
     /**
-	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
      * @used-by \Ecpay_Ecpaypayment_Helper_Data::getRedirectHtml()
      * @param array $data The data for checkout
      * @return void
@@ -87,7 +87,7 @@ class EcpayCartLibrary
 		 * after successful charge, and can it create email?
 		 * I need those features, tell me price and I’ll set up job now.»
 		 * https://www.upwork.com/messages/rooms/room_8bf1854c3fba70df7125300ad02cb42e/story_71556a912a8c8318f401f3c986399454
-		 * 2019-01-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * 2019-01-31 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 		 * «Improve the ECPay payment module for Magento 1: implement the OrderResultURL parameter passing»
 		 * https://www.upwork.com/ab/f/contracts/21411800
 		 * https://github.com/sunpeak-us/ecpay/issues/19
@@ -97,7 +97,7 @@ class EcpayCartLibrary
         $aio->Send['MerchantTradeDate'] = $this->tradeTime;
         $aio->Send['TradeDesc'] = $data['version'];
 		/**
-		 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 		 * The previous (incorrect) code:
 		 * 		$aio->Send['TotalAmount'] = $this->_convertAmounttoUSD($this->getAmount($data['total']));
 		 * "The sunpeak.us modification of the official ECPay module
@@ -108,12 +108,12 @@ class EcpayCartLibrary
 		 */
         $aio->Send['TotalAmount'] = $this->getAmount($data['total']);
         $aio->Send['ChoosePayment'] = $this->getPaymentMethod($paymentType);
-		# 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		# 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 		# «Bind bank cards to the customers»: https://github.com/sunpeak-us/ecpay/issues/12
 		$cs = Mage::getSingleton('customer/session'); /** @var \Mage_Customer_Model_Session $cs */
 		if ($cs->isLoggedIn()) {
 			/**
-			 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 			 * «The function of this parameter is used to save a credit card number.
 			 * If merchants need to bind the card: please set 1 as the value of this parameter.
 			 * If merchants do not need to bind the card: please set 0 as the value of this parameter.»
@@ -121,7 +121,7 @@ class EcpayCartLibrary
 			 */
 			$aio->Send['BindingCard'] = 1;
 			/**
-			 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 			 * «Merchant 1. [Saved credit card number on platform PlatformID]
 			 * 1.1) The naming rules are set by the platform provider
 			 * (applicable to platform providers with membership systems):
@@ -152,7 +152,7 @@ class EcpayCartLibrary
             'Name' => $data['itemName'],
             'Price' => $aio->Send['TotalAmount'],
 			/**
-			 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 			 * The previous (incorrect) code:
 			 * 		'Currency'  => $data['currency'],
 			 * It led to the error:
@@ -173,7 +173,7 @@ class EcpayCartLibrary
                 # Do not support UnionPay
                 $aio->SendExtend['UnionPay'] = false;
 				/**
-				 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 				 * 1) «Choose a language of the checkout interface per a store»:
 				 * https://github.com/sunpeak-us/ecpay/issues/13
 				 * 2) This option is available only if `ChoosePayment` is `Credit`.
@@ -654,8 +654,8 @@ class EcpayCartLibrary
     }
 
 	/**
-	 * 2018-12-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-	 * 2019-01-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-12-31 Dmitry Fedyuk https://github.com/dmitrii-fediuk
+	 * 2019-01-31 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * «Improve the ECPay payment module for Magento 1: implement the OrderResultURL parameter passing»
 	 * https://www.upwork.com/ab/f/contracts/21411800
 	 * https://github.com/sunpeak-us/ecpay/issues/19

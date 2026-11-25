@@ -2,7 +2,7 @@
 use Mage_Checkout_Model_Session as Session;
 use Mage_Sales_Model_Order as O;
 use Mage_Sales_Model_Quote as Q;
-# 2018-11-19 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# 2018-11-19 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 # "Handle the browser's «Back» button on the ECPay payment form":
 # https://github.com/sunpeak-us/ecpay/issues/18
 final class Ecpay_Ecpaypayment_Redirector {
@@ -28,7 +28,7 @@ final class Ecpay_Ecpaypayment_Redirector {
 			$q->load($qid);
 			$q->setIsActive(true);
 			$q->save();
-			# 2019-02-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			# 2019-02-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 			# «When a customer checkouts as a guest, but cancels at ECPay checkout,
 			# the contents do not stay in cart».
 			# https://github.com/sunpeak-us/ecpay/issues/21

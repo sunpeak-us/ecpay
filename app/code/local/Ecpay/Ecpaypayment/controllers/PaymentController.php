@@ -5,7 +5,7 @@ use Mage_Sales_Model_Order as O;
 class Ecpay_Ecpaypayment_PaymentController extends Mage_Core_Controller_Front_Action
 {
 	/**
-	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * 1) "The module should redirect successful customers to the «checkout success» page":
 	 * https://github.com/sunpeak-us/ecpay/issues/10
 	 * 2) "The module should unsuccessful customers to the cart page and restore their carts":
@@ -22,7 +22,7 @@ class Ecpay_Ecpaypayment_PaymentController extends Mage_Core_Controller_Front_Ac
 			&& $o->getStatus() !== $m->getEcpayConfig('failed_status')
 		) {
 			/**
-			 * 2019-01-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * 2019-01-31 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 			 * «Improve ECpay module for Magento 1: send order emails to customers»
 			 * https://www.upwork.com/ab/f/contracts/21411797
 			 * https://github.com/sunpeak-us/ecpay/issues/20

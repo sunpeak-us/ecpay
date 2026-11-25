@@ -64,7 +64,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
 	/**
-	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * «Warning: Missing argument 1 for Ecpay_Ecpaypayment_Helper_Data::getRedirectHtml(),
 	 * called in app/design/frontend/base/default/template/ecpaypayment/redirect.phtml on line 2
 	 * and defined in app/code/local/Ecpay/Ecpaypayment/Helper\Data.php on line 71»:
@@ -109,7 +109,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 'hashIv' => $this->paymentModel->getEcpayConfig('hash_iv'),
                 'returnUrl' => $this->paymentModel->getModuleUrl('response'),
 				/**
-				 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 				 * The previous code was:
 				 * 		'clientBackUrl' =>
 				 * 			$this->paymentModel->getMagentoUrl('sales/order/view/order_id/' . $this->getOrderId()),
@@ -121,7 +121,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 'clientBackUrl' => $this->paymentModel->getModuleUrl('customerReturn'),
                 'orderId' => $orderId,
 				/**
-				 * 2018-12-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				 * 2018-12-31 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 				 * «I noticed in the API there is a OrderResultURL.
 				 * If the module uses that, would it send user to my "success page" as well as send email?
 				 * I need this so my analytics work properly as well. is this something you can do?»
@@ -133,13 +133,13 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 				 * after successful charge, and can it create email?
 				 * I need those features, tell me price and I’ll set up job now.»
 				 * https://www.upwork.com/messages/rooms/room_8bf1854c3fba70df7125300ad02cb42e/story_71556a912a8c8318f401f3c986399454
-				 * 2019-01-31 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				 * 2019-01-31 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 				 * «Improve the ECPay payment module for Magento 1: implement the OrderResultURL parameter passing»
 				 * https://www.upwork.com/ab/f/contracts/21411800
 				 * https://github.com/sunpeak-us/ecpay/issues/19
 				 */
 				EcpayCartLibrary::OrderResultURL => $this->paymentModel->getModuleUrl('customerReturn'),
-				# 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				# 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 				# "The module should pass payment amounts to the ECPay's API in NTD":
 				# https://github.com/sunpeak-us/ecpay/issues/9
                 'total' => ($totalInTWD = $this->toTWD($order)),  /** @var int $totalInTWD */
@@ -147,7 +147,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 'version' => $this->prefix . 'module_magento_2.1.0206',
             );
 			/**
-			 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 			 * «Backend needs to note:
 			 * 1) the currency rate used,
 			 * 2) the actual amount charged to the customer (in TWD)
@@ -185,7 +185,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             $orderId = $sdkHelper->getOrderId($feedback['MerchantTradeNo']);
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderId); /** @var O $order */
 			/**
-			 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 			 * «Store auth data from processor in order notes»:
 			 * https://github.com/sunpeak-us/ecpay/issues/15
 			 */
@@ -203,7 +203,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 			;}));
 			$op->addTransaction(T::TYPE_PAYMENT, $order)->save();
 			/**
-			 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+			 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 			 * 1) "The `$this->paymentModel->getMagentoConfig('use_store_currency')` code
 			 * does not have a sense because the `use_store_currency` configuration option is absent":
 			 * https://github.com/sunpeak-us/ecpay/issues/8
@@ -298,7 +298,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
 	/**
-	 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * @used-by rateFromBaseToTWD()
 	 * @param O $o
 	 * @return C
@@ -306,7 +306,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 	private function cBase(O $o) {return Mage::getModel('directory/currency')->load($o->getBaseCurrencyCode());}
 
 	/**
-	 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * @used-by getRedirectHtml()
 	 * @used-by toTWD()
 	 * @param O $o
@@ -315,7 +315,7 @@ class Ecpay_Ecpaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 	private function rateFromBaseToTWD(O $o) {return $this->cBase($o)->getRate('TWD');}
 
 	/**
-	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * The method returns the order's total in NTD.
 	 * "The module should pass payment amounts to the ECPay's API in NTD":
 	 * https://github.com/sunpeak-us/ecpay/issues/9

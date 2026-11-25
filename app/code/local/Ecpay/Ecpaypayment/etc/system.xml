@@ -53,7 +53,7 @@
                             <can_be_empty>1</can_be_empty>
 						</ecpay_hash_iv>
 
-<!-- 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+<!-- 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 «Choose a language of the checkout interface per a store»:
 https://github.com/sunpeak-us/ecpay/issues/13 -->
 						<language translate='label'>

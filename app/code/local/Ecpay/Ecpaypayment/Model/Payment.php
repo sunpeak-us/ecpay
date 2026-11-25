@@ -4,7 +4,7 @@ class Ecpay_Ecpaypayment_Model_Payment extends Mage_Payment_Model_Method_Abstrac
     protected $_code  = 'ecpaypayment';
     protected $_formBlockType = 'ecpaypayment/form_ecpaypayment';
 	/**
-	 * 2018-11-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * «Backend needs to note:
 	 * 1) the currency rate used,
 	 * 2) the actual amount charged to the customer (in TWD)
@@ -71,13 +71,13 @@ class Ecpay_Ecpaypayment_Model_Payment extends Mage_Payment_Model_Method_Abstrac
     }
 
 	/**
-	 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+	 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 	 * @used-by \Ecpay_Ecpaypayment_Helper_Data::getPaymentResult()
 	 * @used-by \Ecpay_Ecpaypayment_Helper_Data::getRedirectHtml()
 	 */
     function loadLibrary() {
 		/**
-		 * 2018-11-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		 * 2018-11-06 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 		 * «Warning: include_once(EcpayCartLibrary.php): failed to open stream:
 		 * No such file or directory in app/code/local/Ecpay/Ecpaypayment/Model/Payment.php on line 68»:
 		 * https://github.com/sunpeak-us/ecpay/issues/5

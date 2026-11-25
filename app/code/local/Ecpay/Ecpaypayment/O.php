@@ -2,7 +2,7 @@
 use Ecpay_Ecpaypayment_Redirector as R;
 use Mage_Core_Controller_Varien_Action as C;
 use Varien_Event_Observer as Ob;
-# 2018-11-19 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+# 2018-11-19 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 # "Handle the browser's «Back» button on the ECPay payment form": https://github.com/sunpeak-us/ecpay/issues/18
 final class Ecpay_Ecpaypayment_O {
 	/**
@@ -43,7 +43,7 @@ final class Ecpay_Ecpaypayment_O {
 			}
 			else {
 				R::restoreQuote();
-				# 2019-02-15 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+				# 2019-02-15 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 				# Without this code block a guest customer will be returned
 				# to the `checkout/onepage` page instead of the `checkout/cart` page.
 				if ('checkout_cart_index' !== $c->getFullActionName()) {
